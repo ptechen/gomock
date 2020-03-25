@@ -8,7 +8,6 @@ import (
 )
 
 // 设置函数的返回值
-
 func TestReturn(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
@@ -42,11 +41,8 @@ func TestReturnDynamic(t *testing.T) {
 			return &User{
 				Name:"小于100",
 			}, nil
-		} else {
-			return &User{
-				Name:"大于等于100",
-			}, nil
 		}
+		return &User{Name:"大于等于100"}, nil
 	})
 	log.Println(repo.FindOne(120))
 	//log.Println(repo.FindOne(66))
