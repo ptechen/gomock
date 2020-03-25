@@ -33,16 +33,16 @@ func TestReturnDynamic(t *testing.T) {
 	defer ctrl.Finish()
 	repo := NewMockUserRepository(ctrl)
 	// 常用方法之一：DoAndReturn()，动态设置返回值
-	repo.EXPECT().FindOne(gomock.Any()).DoAndReturn(func(i int) (*User,error) {
+	repo.EXPECT().FindOne(gomock.Any()).DoAndReturn(func(i int) (*User, error) {
 		if i == 0 {
 			return nil, errors.New("user not found")
 		}
 		if i < 100 {
 			return &User{
-				Name:"小于100",
+				Name: "小于100",
 			}, nil
 		}
-		return &User{Name:"大于等于100"}, nil
+		return &User{Name: "大于等于100"}, nil
 	})
 	log.Println(repo.FindOne(120))
 	//log.Println(repo.FindOne(66))
