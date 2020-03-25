@@ -1,4 +1,4 @@
-module gomock
+module github.com/ptechen/gomock
 
 go 1.14
 

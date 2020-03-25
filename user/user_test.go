@@ -19,12 +19,13 @@ func TestReturn(t *testing.T) {
 	// 期望FindOne(2)返回李四用户
 	repo.EXPECT().FindOne(2).Return(&User{Name: "李四"}, nil)
 	// 期望给FindOne(3)返回找不到用户的错误
-	repo.EXPECT().FindOne(3).Return(nil, errors.New("user not found"))
+	repo.EXPECT().FindOne(3).Return(nil,
+		errors.New("user not found"))
 	// 验证一下结果
 	log.Println(repo.FindOne(1)) // 这是张三
 	log.Println(repo.FindOne(2)) // 这是李四
 	log.Println(repo.FindOne(3)) // user not found
-	log.Println(repo.FindOne(4)) //没有设置4的返回值，却执行了调用，测试不通过
+	//log.Println(repo.FindOne(4)) //没有设置4的返回值，却执行了调用，测试不通过
 }
 
 // 动态设置返回值
@@ -63,7 +64,8 @@ func TestTimes(t *testing.T) {
 	// 期望调用2次
 	repo.EXPECT().FindOne(2).Return(&User{Name: "李四"}, nil).Times(2)
 	// 调用多少次可以,包括0次
-	repo.EXPECT().FindOne(3).Return(nil, errors.New("user not found")).AnyTimes()
+	repo.EXPECT().FindOne(3).Return(nil,
+		errors.New("user not found")).AnyTimes()
 
 	// 验证一下结果
 	log.Println(repo.FindOne(1)) // 这是张三
@@ -79,7 +81,8 @@ func TestOrder(t *testing.T) {
 	repo := NewMockUserRepository(ctrl)
 	o1 := repo.EXPECT().FindOne(1).Return(&User{Name: "张三"}, nil)
 	o2 := repo.EXPECT().FindOne(2).Return(&User{Name: "李四"}, nil)
-	o3 := repo.EXPECT().FindOne(3).Return(nil, errors.New("user not found"))
+	o3 := repo.EXPECT().FindOne(3).Return(nil,
+		errors.New("user not found"))
 	gomock.InOrder(o1, o2, o3) //设置调用顺序
 	// 按顺序调用，验证一下结果
 	log.Println(repo.FindOne(1)) // 这是张三
