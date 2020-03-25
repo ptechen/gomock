@@ -1,4 +1,4 @@
-package gomock
+package user
 
 type User struct {
 	Name string
